@@ -1,4 +1,19 @@
-function sum (num1:number, num2:number){
-    return num1 + num2;
-}
-console.log(sum(8,4))
+import express, {Request, Response, Application} from 'express';
+
+const app:Application = express();
+const PORT = process.env.PORT || 8000;
+
+
+app.get("/", (req:Request, res:Response) => {
+    console.log(`REQ: <root>`); 
+    res.send("Hello Typescript with Node.js!");
+});
+
+app.get("*", function (req, res) {
+    console.log(`REQ: ${req.url}`); 
+    res.send(`You requested: ${req.url}`);
+});
+
+app.listen(PORT, ():void => {
+    console.log(`Hello world service listening at [https://localhost:${PORT}]`); 
+});
