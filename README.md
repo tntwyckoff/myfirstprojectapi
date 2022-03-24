@@ -1,3 +1,3 @@
 # myfirstprojectapi
 
-###To run do `npm install` then `npm run dev`
+### To run do `npm install` then `npm run dev`
