@@ -16,4 +16,4 @@ steps:
   id: 'latest'
 
 images:
-- 'gcr.io/$PROJECT_ID/docker:dockerbuilt:latest'
+- 'gcr.io/$PROJECT_ID/dockerbuilt'
