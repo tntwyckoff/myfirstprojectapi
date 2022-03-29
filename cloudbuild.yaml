@@ -3,7 +3,7 @@ steps:
 - name: 'gcr.io/cloud-builders/docker'
   args:
   - 'build'
-  - '--tag=gcr.io/$PROJECT_ID/dockerbuilt'
+  - '--tag=gcr.io/$PROJECT_ID/dockerbuiltmyfirstproject'
   - '--file=Dockerfile'
   - '.'
   id: 'buildstep'
@@ -11,9 +11,13 @@ steps:
 # Tag the latest version as :latest. We use gcr.io/cloud-builders/docker here
 # and not gcr.io/$PROJECT_ID/docker because the latter may not yet exist.
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['tag', 'gcr.io/$PROJECT_ID/dockerbuilt', 'gcr.io/$PROJECT_ID/latest']
+  args: ['tag', 'gcr.io/$PROJECT_ID/dockerbuiltmyfirstproject', 'gcr.io/$PROJECT_ID/latest']
   wait_for: ['buildstep']
   id: 'latest'
 
+# Deploy container image to Cloud Run
+- name: 'gcr.io/cloud-builders/gcloud'
+  args: ['run', 'deploy', 'myfirstprojectapi', '--image', 'gcr.io/$PROJECT_ID/dockerbuiltmyfirstproject', '--region', 'us-central1', '--platform', 'managed', '--allow-unauthenticated']
+
 images:
-- 'gcr.io/$PROJECT_ID/dockerbuilt'
+- 'gcr.io/$PROJECT_ID/dockerbuiltmyfirstproject'
