@@ -19,4 +19,5 @@ RUN npm install --production
 COPY . ./
 
 # Run the web service on container startup.
-CMD ["ts-node", "./src/index.ts"]
+# CMD ["ts-node", "./src/index.ts"]
+CMD ["npm", "start"]
