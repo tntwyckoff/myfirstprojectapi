@@ -1,0 +1,27 @@
+steps:
+# Build all supported versions.
+- name: 'gcr.io/cloud-builders/docker'
+  args:
+  - 'build'
+  - '--tag=gcr.io/$PROJECT_ID/dockerbuilt'
+  - '--file=Dockerfile'
+  - '.'
+  id: '19.03.9'
+
+# Test each version by using it to run "docker build" on itself.
+- name: 'gcr.io/$PROJECT_ID/dockerbuilt'
+  args:
+  - 'build'
+  - '--file=Dockerfile'
+  - '.'
+  wait_for: ['19.03.9']
+
+# Tag the latest version as :latest. We use gcr.io/cloud-builders/docker here
+# and not gcr.io/$PROJECT_ID/docker because the latter may not yet exist.
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['tag', 'gcr.io/$PROJECT_ID/dockerbuilt', 'gcr.io/$PROJECT_ID/latest']
+  wait_for: ['19.03.9']
+  id: 'latest'
+
+images:
+- 'gcr.io/$PROJECT_ID/docker:latest'
